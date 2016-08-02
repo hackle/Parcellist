@@ -17,6 +17,11 @@ namespace Parcellist
 
         public Package Advise(Parcel parcel)
         {
+            if (null == parcel)
+            {
+                throw new ArgumentNullException(nameof(parcel));
+            }
+
             return this.packages.FirstOrDefault(p => p.Fits(parcel));
         }
     }

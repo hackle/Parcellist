@@ -11,6 +11,12 @@ namespace Parcellist.TDD
     [TestFixture]
     public class ParcelAdvisorTests
     {
+        [AutoData]
+        public void Must_be_given_a_valid_parcel(ParcelAdvisor advisor)
+        {
+            Assert.Throws<ArgumentNullException>(() => advisor.Advise(null) );
+        }
+
         [InlineAutoData(210, 280, 130, 50)]
         [InlineAutoData(280, 390, 180, 75)]
         [InlineAutoData(380, 550, 200, 85)]
@@ -27,7 +33,7 @@ namespace Parcellist.TDD
         }
 
         [AutoData]
-        public void If_parcel_is_too_large_Then_gets_no_packageInvalidOperationException(ParcelAdvisor advisor)
+        public void If_parcel_is_too_large_Then_gets_no_package(ParcelAdvisor advisor)
         {
             // just slightly too large!
             Assert.That(advisor.Advise(new Parcel(381, 550, 200, 5.2M)), Is.Null);
