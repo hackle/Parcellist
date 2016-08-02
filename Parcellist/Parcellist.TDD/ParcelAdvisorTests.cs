@@ -18,7 +18,7 @@ namespace Parcellist.TDD
 
             var offer = advisor.Advise(parcel);
 
-            Assert.That(offer, Is.TypeOf<SmallPackage>());
+            Assert.That(offer.Cost, Is.EqualTo(5M));
         }
 
         [AutoData]
@@ -28,7 +28,7 @@ namespace Parcellist.TDD
 
             var offer = advisor.Advise(parcel);
 
-            Assert.That(offer, Is.TypeOf<MediumPackage>());
+            Assert.That(offer.Cost, Is.EqualTo(7.5M));
         }
     }
 }

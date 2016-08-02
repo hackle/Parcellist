@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 namespace Parcellist
 {
     public class Parcel
-    {
-        private int v1;
-        private int v2;
-        private int v3;
-        private decimal v4;
+    { 
+        public int Breadth { get; internal set; }
+        public int Height { get; internal set; }
+        public int Width { get; internal set; }
+        private decimal Weight;
 
-        public Parcel(int v1, int v2, int v3, decimal v4)
+        public Parcel(int width, int breadth, int height, decimal weight)
         {
-            this.v1 = v1;
-            this.v2 = v2;
-            this.v3 = v3;
-            this.v4 = v4;
+            this.Width = width;
+            this.Breadth = breadth;
+            this.Height = height;
+            this.Weight = weight;
         }
     }
 }
