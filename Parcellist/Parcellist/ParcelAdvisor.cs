@@ -8,9 +8,15 @@ namespace Parcellist
 {
     public class ParcelAdvisor
     {
-        public SmallPackage Advise(Parcel parcel)
+        private IList<IPackage> packages = new IPackage[]
         {
-            return new SmallPackage();
+            new SmallPackage(),
+            new MediumPackage()
+        };
+
+        public IPackage Advise(Parcel parcel)
+        {
+            return this.packages.FirstOrDefault(p => p.Fits(parcel));
         }
     }
 }

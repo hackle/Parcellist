@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPackage.cs" />
+    <Compile Include="MediumPackage.cs" />
     <Compile Include="SmallPackage.cs" />
     <Compile Include="Parcel.cs" />
     <Compile Include="ParcelAdvisor.cs" />

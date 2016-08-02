@@ -2,7 +2,7 @@
 
 namespace Parcellist
 {
-    public class SmallPackage : IPackage
+    public class MediumPackage : IPackage
     {
         public int Breadth
         {
