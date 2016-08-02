@@ -25,6 +25,7 @@ namespace Parcellist.TDD
         [InlineAutoData(380, 550, 200, 85)]
         public void Can_advise_tight_fits_regardless_of_order_of_dimensions(int d1, int d2, int d3, int cost, ParcelAdvisor advisor)
         {
+            // shuffle
             var dimensions = new[] { d1, d2, d3 }.OrderBy(d => Guid.NewGuid()).ToArray();
 
             var parcel = new Parcel(dimensions[0], dimensions[1], dimensions[2], 5.2M);

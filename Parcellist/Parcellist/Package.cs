@@ -7,6 +7,21 @@ namespace Parcellist
     {
         public Package(string name, int width, int breadth, int height, decimal cost)
         {
+            if (width < 1)
+            {
+                throw new ArgumentException(nameof(width));
+            }
+
+            if (breadth < 1)
+            {
+                throw new ArgumentException(nameof(breadth));
+            }
+
+            if (height < 1)
+            {
+                throw new ArgumentException(nameof(height));
+            }
+
             this.Name = name;
             this.Width = width;
             this.Height = height;
