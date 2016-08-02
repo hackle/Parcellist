@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="PackageTests.cs" />
     <Compile Include="ParcelAdvisorTests.cs" />
+    <Compile Include="ParcelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
