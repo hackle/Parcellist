@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Parcellist
 {
-    public class Class1
+    public class ParcelAdvisor
     {
+        public SmallPackage Advise(Parcel parcel)
+        {
+            return new SmallPackage();
+        }
     }
 }
