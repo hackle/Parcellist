@@ -11,7 +11,7 @@ namespace Parcellist
         public int Breadth { get; internal set; }
         public int Height { get; internal set; }
         public int Width { get; internal set; }
-        private decimal Weight;
+        public decimal Weight;
 
         public Parcel(int width, int breadth, int height, decimal weight)
         {

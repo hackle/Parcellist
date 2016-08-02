@@ -38,5 +38,12 @@ namespace Parcellist.TDD
             // just slightly too large!
             Assert.That(advisor.Advise(new Parcel(381, 550, 200, 5.2M)), Is.Null);
         }
+
+        [AutoData]
+        public void If_parcel_is_too_heavy_Then_even_fits_will_gets_no_package(ParcelAdvisor advisor)
+        {
+            // just slightly too large!
+            Assert.That(advisor.Advise(new Parcel(1, 1, 1, ParcelAdvisor.MaxWeight + 1)), Is.Null);
+        }
     }
 }

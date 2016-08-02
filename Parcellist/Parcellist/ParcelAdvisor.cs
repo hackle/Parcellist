@@ -15,11 +15,18 @@ namespace Parcellist
             new Package("Large package", 380, 550, 200, 8.5M)
         };
 
+        public const decimal MaxWeight = 25M;
+
         public Package Advise(Parcel parcel)
         {
             if (null == parcel)
             {
                 throw new ArgumentNullException(nameof(parcel));
+            }
+
+            if (parcel.Weight >= MaxWeight)
+            {
+                return null;
             }
 
             return this.packages.FirstOrDefault(p => p.Fits(parcel));
