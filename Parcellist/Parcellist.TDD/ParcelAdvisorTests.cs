@@ -17,8 +17,11 @@ namespace Parcellist.TDD
             Assert.Throws<ArgumentNullException>(() => advisor.Advise(null) );
         }
 
+        [InlineAutoData(1, 1, 1, 50)]
         [InlineAutoData(210, 280, 130, 50)]
+        [InlineAutoData(245, 300, 145, 75)]
         [InlineAutoData(280, 390, 180, 75)]
+        [InlineAutoData(300, 400, 190, 85)]
         [InlineAutoData(380, 550, 200, 85)]
         public void Can_advise_tight_fits_regardless_of_order_of_dimensions(int d1, int d2, int d3, int cost, ParcelAdvisor advisor)
         {
