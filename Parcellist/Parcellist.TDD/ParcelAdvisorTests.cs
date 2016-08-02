@@ -20,10 +20,17 @@ namespace Parcellist.TDD
 
             var parcel = new Parcel(dimensions[0], dimensions[1], dimensions[2], 5.2M);
 
-            var offer = advisor.Advise(parcel);
+            var package = advisor.Advise(parcel);
 
             // cost is 10 times of actual for sake of unit testing
-            Assert.That(offer.Cost, Is.EqualTo(cost / 10M));
+            Assert.That(package.Cost, Is.EqualTo(cost / 10M));
+        }
+
+        [AutoData]
+        public void If_parcel_is_too_large_Then_gets_no_packageInvalidOperationException(ParcelAdvisor advisor)
+        {
+            // just slightly too large!
+            Assert.That(advisor.Advise(new Parcel(381, 550, 200, 5.2M)), Is.Null);
         }
     }
 }
