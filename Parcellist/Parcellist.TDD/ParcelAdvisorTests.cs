@@ -11,24 +11,17 @@ namespace Parcellist.TDD
     [TestFixture]
     public class ParcelAdvisorTests
     {
-        [AutoData]
-        public void When_parcel_sizes_match_that_of_a_small_package_Then_a_small_pacakge_is_advised(ParcelAdvisor advisor)
+        [InlineAutoData(210, 280, 130, 50)]
+        [InlineAutoData(280, 390, 180, 75)]
+        [InlineAutoData(380, 550, 200, 85)]
+        public void Can_advise_tight_fits(int d1, int d2, int d3, int cost, ParcelAdvisor advisor)
         {
-            var parcel = new Parcel(210, 280, 130, 5.2M);
+            var parcel = new Parcel(d1, d2, d3, 5.2M);
 
             var offer = advisor.Advise(parcel);
 
-            Assert.That(offer.Cost, Is.EqualTo(5M));
-        }
-
-        [AutoData]
-        public void When_parcel_sizes_match_that_of_a_medium_package_Then_a_medium_pacakge_is_advised(ParcelAdvisor advisor)
-        {
-            var parcel = new Parcel(280, 390, 180, 5.2M);
-
-            var offer = advisor.Advise(parcel);
-
-            Assert.That(offer.Cost, Is.EqualTo(7.5M));
+            // cost is 10 times of actual for sake of unit testing
+            Assert.That(offer.Cost, Is.EqualTo(cost / 10M));
         }
     }
 }
