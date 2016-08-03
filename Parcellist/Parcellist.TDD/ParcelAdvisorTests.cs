@@ -14,8 +14,8 @@ namespace Parcellist.TDD
     {
         private IList<Package> packages = new Package[]
         {
-            new Package("Small package", 210, 280, 130, 5M),
             new Package("Medium package", 280, 390, 180, 7.5M),
+            new Package("Small package", 210, 280, 130, 5M),
             new Package("Large package", 380, 550, 200, 8.5M)
         };
 
