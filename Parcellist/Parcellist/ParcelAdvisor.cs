@@ -8,14 +8,13 @@ namespace Parcellist
 {
     public class ParcelAdvisor
     {
-        private IList<Package> packages = new Package[]
-        {
-            new Package("Small package", 210, 280, 130, 5M),
-            new Package("Medium package", 280, 390, 180, 7.5M),
-            new Package("Large package", 380, 550, 200, 8.5M)
-        };
-
         public const decimal MaxWeight = 25M;
+        private readonly IPackageRepository packageRepository;
+
+        public ParcelAdvisor(IPackageRepository packageRepository)
+        {
+            this.packageRepository = packageRepository;
+        }
 
         public Package Advise(Parcel parcel)
         {
@@ -29,7 +28,7 @@ namespace Parcellist
                 throw new InvalidOperationException("This parcel is too heavy");
             }
 
-            var package = this.packages.FirstOrDefault(p => p.Fits(parcel));
+            var package = this.packageRepository.Get()?.FirstOrDefault(p => p.Fits(parcel));
 
             if (null == package)
             {

@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InlineAutoDataAttribute.cs" />
+    <Compile Include="IPackageRepository.cs" />
     <Compile Include="Package.cs" />
+    <Compile Include="PackageRepository.cs" />
     <Compile Include="Parcel.cs" />
     <Compile Include="ParcelAdvisor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
