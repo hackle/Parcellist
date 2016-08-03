@@ -26,10 +26,17 @@ namespace Parcellist
 
             if (parcel.Weight >= MaxWeight)
             {
-                return null;
+                throw new InvalidOperationException("This parcel is too heavy");
             }
 
-            return this.packages.FirstOrDefault(p => p.Fits(parcel));
+            var package = this.packages.FirstOrDefault(p => p.Fits(parcel));
+
+            if (null == package)
+            {
+                throw new InvalidOperationException("This parcel is too large");
+            }
+
+            return package;
         }
     }
 }
