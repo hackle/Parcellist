@@ -29,7 +29,7 @@ namespace Parcellist
 
             if (parcel.Weight >= this.packageRepository.GetMaxWeight())
             {
-                throw new InvalidOperationException("This parcel is too heavy");
+                throw new InvalidOperationException("There is no package available for this parcel");
             }
 
             var package = this.packageRepository.GetPackages()?.OrderBy(p => p.Capacity).FirstOrDefault(p => p.Fits(parcel));
