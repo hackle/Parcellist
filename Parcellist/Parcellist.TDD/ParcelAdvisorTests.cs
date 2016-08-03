@@ -62,7 +62,10 @@ namespace Parcellist.TDD
         }
 
         [AutoMoqData]
-        public void If_packages_are_not_availabel_Then_gets_error(Parcel parcel, [Frozen] IPackageRepository packageRepo, ParcelAdvisor advisor)
+        public void If_packages_are_not_available_Then_gets_error(
+            Parcel parcel, 
+            [Frozen] IPackageRepository packageRepo, 
+            ParcelAdvisor advisor)
         {
             Mock.Get(packageRepo).Setup(p => p.GetPackages()).Returns(() => null);
             
@@ -70,16 +73,23 @@ namespace Parcellist.TDD
         }
 
         [AutoMoqData]
-        public void If_parcel_is_too_large_Then_gets_error([Frozen] IPackageRepository packageRepo, ParcelAdvisor advisor)
+        public void If_parcel_is_too_large_Then_gets_error(
+            decimal maxWeight,
+            [Frozen] IPackageRepository packageRepo, 
+            ParcelAdvisor advisor)
         {
             Mock.Get(packageRepo).Setup(p => p.GetPackages()).Returns(packages);
+            Mock.Get(packageRepo).Setup(p => p.GetMaxWeight()).Returns(maxWeight);
 
             // just slightly too large!
-            Assert.Throws<InvalidOperationException>(() => advisor.Advise(new Parcel(381, 550, 200, 5.2M)), "no package");
+            Assert.Throws<InvalidOperationException>(() => advisor.Advise(new Parcel(381, 550, 200, maxWeight - 1)), "no package");
         }
 
         [AutoMoqData]
-        public void If_parcel_is_too_heavy_Then_even_fits_will_get_error(decimal maxWeight, [Frozen] IPackageRepository packageRepo, ParcelAdvisor advisor)
+        public void If_parcel_is_too_heavy_Then_even_fits_will_get_error(
+            decimal maxWeight, 
+            [Frozen] IPackageRepository packageRepo, 
+            ParcelAdvisor advisor)
         {
             Mock.Get(packageRepo).Setup(r => r.GetMaxWeight()).Returns(maxWeight);
             // just slightly too heavy!
