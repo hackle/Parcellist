@@ -32,7 +32,7 @@ namespace Parcellist
                 throw new InvalidOperationException("This parcel is too heavy");
             }
 
-            var package = this.packageRepository.GetPackages()?.FirstOrDefault(p => p.Fits(parcel));
+            var package = this.packageRepository.GetPackages()?.OrderBy(p => p.Capacity).FirstOrDefault(p => p.Fits(parcel));
 
             if (null == package)
             {

@@ -46,12 +46,12 @@ namespace Parcellist.TDD
             [Frozen] IPackageRepository packageRepo,
             ParcelAdvisor advisor)
         {
-            Mock.Get(packageRepo).Setup(p => p.GetPackages()).Returns(packages);
+            Mock.Get(packageRepo).Setup(p => p.GetPackages()).Returns(packages.Shuffle());
             Mock.Get(packageRepo).Setup(p => p.GetMaxWeight()).Returns(maxWeight);
 
             // shuffle
             var allowedWeight = maxWeight - 1;
-            var dimensions = new[] { d1, d2, d3 }.OrderBy(d => Guid.NewGuid()).ToArray();
+            var dimensions = new[] { d1, d2, d3 }.Shuffle().ToArray();
 
             var parcel = new Parcel(dimensions[0], dimensions[1], dimensions[2], allowedWeight);
 
@@ -76,6 +76,14 @@ namespace Parcellist.TDD
             Mock.Get(packageRepo).Setup(r => r.GetMaxWeight()).Returns(maxWeight);
             // just slightly too heavy!
             Assert.Throws<InvalidOperationException>(() => advisor.Advise(new Parcel(1, 1, 1, maxWeight + 1)), "too heavy");
+        }
+    }
+
+    public static class EnumerableExtension
+    {
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> @this)
+        {
+            return @this.OrderBy((t) => Guid.NewGuid());
         }
     }
 }

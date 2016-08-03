@@ -39,6 +39,14 @@ namespace Parcellist
 
         public readonly int Width;
 
+        public decimal Capacity
+        {
+            get
+            {
+                return this.Width * this.Breadth * this.Height;
+            }
+        }
+
         public bool Fits(Parcel parcel)
         {
             var parckageDimensions = new[] { this.Width, this.Height, this.Breadth }.OrderByDescending(a => a);
