@@ -19,6 +19,12 @@ namespace Parcellist.TDD
             new Package("Large package", 380, 550, 200, 8.5M)
         };
 
+        [Test]
+        public void Must_be_constructed_with_a_valid_parcel_repo()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ParcelAdvisor(null));
+        }
+
         [AutoMoqData]
         public void Must_be_given_a_valid_parcel(ParcelAdvisor advisor)
         {

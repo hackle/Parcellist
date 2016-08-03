@@ -13,6 +13,11 @@ namespace Parcellist
 
         public ParcelAdvisor(IPackageRepository packageRepository)
         {
+            if (null == packageRepository)
+            {
+                throw new ArgumentNullException(nameof(packageRepository));
+            }
+
             this.packageRepository = packageRepository;
         }
 
