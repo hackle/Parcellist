@@ -8,6 +8,7 @@ namespace Parcellist
 {
     public interface IPackageRepository
     {
-        IEnumerable<Package> Get();
+        IEnumerable<Package> GetPackages();
+        decimal GetMaxWeight();
     }
 }

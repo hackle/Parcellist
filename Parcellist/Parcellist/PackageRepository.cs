@@ -12,7 +12,14 @@ namespace Parcellist
             new Package("Large package", 380, 550, 200, 8.5M)
         };
 
-        public IEnumerable<Package> Get()
+        private const decimal MaxWeight = 25M;
+
+        public decimal GetMaxWeight()
+        {
+            return MaxWeight;
+        }
+
+        public IEnumerable<Package> GetPackages()
         {
             return packages;
         }

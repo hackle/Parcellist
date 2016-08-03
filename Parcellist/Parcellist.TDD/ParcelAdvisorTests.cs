@@ -42,15 +42,18 @@ namespace Parcellist.TDD
             int d2, 
             int d3, 
             int cost, 
+            decimal maxWeight,
             [Frozen] IPackageRepository packageRepo,
             ParcelAdvisor advisor)
         {
-            Mock.Get(packageRepo).Setup(p => p.Get()).Returns(packages);
+            Mock.Get(packageRepo).Setup(p => p.GetPackages()).Returns(packages);
+            Mock.Get(packageRepo).Setup(p => p.GetMaxWeight()).Returns(maxWeight);
 
             // shuffle
+            var allowedWeight = maxWeight - 1;
             var dimensions = new[] { d1, d2, d3 }.OrderBy(d => Guid.NewGuid()).ToArray();
 
-            var parcel = new Parcel(dimensions[0], dimensions[1], dimensions[2], 5.2M);
+            var parcel = new Parcel(dimensions[0], dimensions[1], dimensions[2], allowedWeight);
 
             var package = advisor.Advise(parcel);
 
@@ -61,17 +64,18 @@ namespace Parcellist.TDD
         [AutoMoqData]
         public void If_parcel_is_too_large_Then_gets_error([Frozen] IPackageRepository packageRepo, ParcelAdvisor advisor)
         {
-            Mock.Get(packageRepo).Setup(p => p.Get()).Returns(packages);
+            Mock.Get(packageRepo).Setup(p => p.GetPackages()).Returns(packages);
 
             // just slightly too large!
             Assert.Throws<InvalidOperationException>(() => advisor.Advise(new Parcel(381, 550, 200, 5.2M)), "too large");
         }
 
         [AutoMoqData]
-        public void If_parcel_is_too_heavy_Then_even_fits_will_gets_error(ParcelAdvisor advisor)
+        public void If_parcel_is_too_heavy_Then_even_fits_will_get_error(decimal maxWeight, [Frozen] IPackageRepository packageRepo, ParcelAdvisor advisor)
         {
+            Mock.Get(packageRepo).Setup(r => r.GetMaxWeight()).Returns(maxWeight);
             // just slightly too heavy!
-            Assert.Throws<InvalidOperationException>(() => advisor.Advise(new Parcel(1, 1, 1, ParcelAdvisor.MaxWeight + 1)), "too heavy");
+            Assert.Throws<InvalidOperationException>(() => advisor.Advise(new Parcel(1, 1, 1, maxWeight + 1)), "too heavy");
         }
     }
 }
