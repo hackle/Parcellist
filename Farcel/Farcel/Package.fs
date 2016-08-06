@@ -16,18 +16,71 @@ module Size =
         let (PackageSize v) = s
         v
 
+module SizeTests =
+    open Size
+    open Xunit
+    open Swensen.Unquote
+    open Result
+
+    [<Theory>]
+    [<InlineData(15)>]
+    [<InlineData(150)>]
+    [<InlineData(15000)>]
+    let ``Positive numbers result in success`` (size: int) =
+        let actual = Size.create size
+        
+        match actual with
+        | Success s ->         
+            let result = Size.value s
+            test <@ result = size @>
+        | Failure s -> Assert.True(false, "Should not fail")
+
+    [<Theory>]
+    [<InlineData(0)>]
+    [<InlineData(-1)>]
+    let ``Non positive numbers result in failure`` (size: int) =
+        let actual = Size.create size
+        
+        match actual with
+        | Success s -> Assert.True(false, "Should not succeed")       
+        | Failure m -> test <@ m.Contains("not valid") @>
+
 module PackageCost =
     open Result
     type T = private PackageCost of decimal
 
     let create c =
-        if c > 0M
+        if c >= 0M
             then Success (PackageCost c)
             else Failure "Cost is not valid"
 
     let value c =
         let (PackageCost p) = c
         p
+
+module PackageCostTests =
+    open Size
+    open Xunit
+    open Swensen.Unquote
+
+    [<Theory>]
+    [<InlineData(1234)>]
+    [<InlineData(0)>]
+    let ``Non-negative cost is allowed`` (c: decimal) =
+        let cost = PackageCost.create c
+        match cost with
+        | Success suc ->
+            let actual = PackageCost.value suc
+            test <@ actual = c @>
+        | Failure _ -> Assert.True(false, "Should not fail")
+
+    [<Theory>]
+    [<InlineData(-1)>]
+    let ``Negative cost is not cool`` (c: decimal) =
+        let cost = PackageCost.create c
+        match cost with
+        | Success _ -> Assert.True(false, "Should not succeed")
+        | Failure s -> test <@ s.Contains("not valid") @>
 
 module Weight =
     type T = private Weight of decimal
