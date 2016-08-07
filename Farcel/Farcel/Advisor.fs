@@ -36,16 +36,19 @@ let findPackage (valids:Package.T list) item =
     with
         | :? KeyNotFoundException -> Failure "No package available"
         
-let advise (request: PackageRequest) (options: PackageOption list) = 
-    let validOptions =
-        options
-        |> List.map (fun o -> Package.create o.Name o.Width o.Height o.Breadth o.Cost)
-        |> List.fold folder []
+let advise (request: PackageRequest) (options: PackageOption list) (maxWeight:decimal) = 
+    if request.Weight > maxWeight
+        then Failure "Too heavy"
+    else
+        let validOptions =
+            options
+            |> List.map (fun o -> Package.create o.Name o.Width o.Height o.Breadth o.Cost)
+            |> List.fold folder []
 
-    let result = new Result.Builder()
+        let result = new Result.Builder()
 
-    result 
-        {
-        let! i = ItemToSend.create request.Width request.Height request.Breadth request.Weight
-        return findPackage validOptions i
-        }
+        result 
+            {
+            let! i = ItemToSend.create request.Width request.Height request.Breadth request.Weight
+            return findPackage validOptions i
+            }
