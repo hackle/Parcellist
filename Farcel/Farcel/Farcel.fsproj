@@ -58,6 +58,7 @@
     <Compile Include="Result.fs" />
     <Compile Include="Package.fs" />
     <Compile Include="Advisor.fs" />
+    <Compile Include="AdvisorTests.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

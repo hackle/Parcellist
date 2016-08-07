@@ -5,19 +5,14 @@ open Result
 open ItemToSend
 open System.Collections.Generic
 
+type PackageRequest = { Width: int; Height: int; Breadth: int; Weight: decimal }
+type PackageOption = { Width: int; Height: int; Breadth: int; Name: string; Cost: decimal }
+
 let folder carry current =
     match current with
     | Success s -> s::carry
     | _ -> carry
-
-let availablePackages = [
-    (Package.create "Small" 210 280 130 5M)
-    (Package.create "Medium" 280 390 180 7.5M)
-    (Package.create "Large" 380 550 200 8.5M)
-] 
  
-let validPackages = availablePackages |> List.fold folder []
-
 let fits (item:ItemToSend.T) (package:Package.T) =
     let itemDimensions = [ (Size.value item.Width), (Size.value item.Height), (Size.value item.Breadth)]
                             |> List.sortBy (fun a -> a)
@@ -31,26 +26,26 @@ let fits (item:ItemToSend.T) (package:Package.T) =
 
     List.fold2 folder true itemDimensions packageDimensions
 
-let advise (valids:Package.T list) item =
+let findPackage (valids:Package.T list) item =
     try
         let fit =
             valids
             |> List.sortBy (fun x -> (Size.value x.Width) * (Size.value x.Height) * (Size.value x.Breadth))
             |> List.find (fun c -> fits item c)
-        Success fit.Cost
+        Success fit
     with
         | :? KeyNotFoundException -> Failure "No package available"
         
+let advise (request: PackageRequest) (options: PackageOption list) = 
+    let validOptions =
+        options
+        |> List.map (fun o -> Package.create o.Name o.Width o.Height o.Breadth o.Cost)
+        |> List.fold folder []
 
-let result = new Result.Builder()
+    let result = new Result.Builder()
 
-let fit =
     result 
         {
-        let! i = ItemToSend.create 1150 1 1 1.2M
-        return advise validPackages i
+        let! i = ItemToSend.create request.Width request.Height request.Breadth request.Weight
+        return findPackage validOptions i
         }
-match fit with 
-| Success s -> 
-    printf "Pay %A and we have a deal" (PackageCost.value s)
-| Failure m -> printf "Error %A" m
